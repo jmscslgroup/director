@@ -7,9 +7,9 @@
  *
  * Code generation for model "director".
  *
- * Model version              : 1.60
+ * Model version              : 1.62
  * Simulink Coder version : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Fri Sep 25 11:31:32 2020
+ * C++ source code generated on : Mon Sep 28 15:23:34 2020
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -33,7 +33,7 @@ extern boolean_T director_push(Queue_real_T *q, const Msg_real_T *element);
 extern int32_T director_Chart_In1_SendData(const real_T *data);
 extern int32_T director_Chart_In2_SendData(const real_T *data);
 extern boolean_T director_pop(Queue_real_T *q, Msg_real_T *elementOut);
-extern Msg_real_T *director_Chart_In2_RecvMsg(void);
 extern Msg_real_T *director_Chart_In1_RecvMsg(void);
+extern Msg_real_T *director_Chart_In2_RecvMsg(void);
 
 #endif                                 /* RTW_HEADER_director_private_h_ */

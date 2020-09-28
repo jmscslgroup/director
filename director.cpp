@@ -7,9 +7,9 @@
  *
  * Code generation for model "director".
  *
- * Model version              : 1.60
+ * Model version              : 1.62
  * Simulink Coder version : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Fri Sep 25 11:31:32 2020
+ * C++ source code generated on : Mon Sep 28 15:23:34 2020
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -51,8 +51,8 @@ static real_T director_checkHigh(int8_T data);
 static void director_sf_msg_send_next(void);
 static real_T director_checkLow(int8_T data);
 static void director_sf_msg_send_previous(void);
-static boolean_T director_sf_msg_pop_previous(void);
 static boolean_T director_sf_msg_pop_next(void);
+static boolean_T director_sf_msg_pop_previous(void);
 static void director_sf_msg_discard_next(void);
 static void directo_sf_msg_discard_previous(void);
 static void matlabCodegenHandle_matlabCod_n(ros_slros_internal_block_Subs_T *obj);
@@ -206,47 +206,6 @@ boolean_T director_pop(Queue_real_T *q, Msg_real_T *elementOut)
   return isPop;
 }
 
-Msg_real_T *director_Chart_In2_RecvMsg(void)
-{
-  Msg_real_T *msg;
-
-  /* DiscreteEventSubgraph generated from: '<Root>/Chart' */
-  msg = &director_DW.Queue_InsertedFor_Chart_at_in_n;
-
-  /* Queue generated from: '<Root>/Chart' incorporates:
-   *  DiscreteEventSubgraph generated from: '<Root>/Chart'
-   */
-  if (!director_pop(&director_DW.Queue_InsertedFor_Chart_at_i_ox,
-                    &director_DW.Queue_InsertedFor_Chart_at_in_n)) {
-    msg = NULL;
-  }
-
-  /* End of Queue generated from: '<Root>/Chart' */
-  return msg;
-}
-
-/* Function for Chart: '<Root>/Chart' */
-static boolean_T director_sf_msg_pop_previous(void)
-{
-  boolean_T isPresent;
-  if (director_DW.previous_isValid) {
-    isPresent = true;
-  } else {
-    director_DW.previous_msgHandle = director_Chart_In2_RecvMsg();
-    if (director_DW.previous_msgHandle != NULL) {
-      director_DW.previous_msgDataPtr = &((Msg_real_T *)
-        director_DW.previous_msgHandle)->fData;
-      isPresent = true;
-    } else {
-      isPresent = false;
-    }
-
-    director_DW.previous_isValid = isPresent;
-  }
-
-  return isPresent;
-}
-
 Msg_real_T *director_Chart_In1_RecvMsg(void)
 {
   Msg_real_T *msg;
@@ -283,6 +242,47 @@ static boolean_T director_sf_msg_pop_next(void)
     }
 
     director_DW.next_isValid = isPresent;
+  }
+
+  return isPresent;
+}
+
+Msg_real_T *director_Chart_In2_RecvMsg(void)
+{
+  Msg_real_T *msg;
+
+  /* DiscreteEventSubgraph generated from: '<Root>/Chart' */
+  msg = &director_DW.Queue_InsertedFor_Chart_at_in_n;
+
+  /* Queue generated from: '<Root>/Chart' incorporates:
+   *  DiscreteEventSubgraph generated from: '<Root>/Chart'
+   */
+  if (!director_pop(&director_DW.Queue_InsertedFor_Chart_at_i_ox,
+                    &director_DW.Queue_InsertedFor_Chart_at_in_n)) {
+    msg = NULL;
+  }
+
+  /* End of Queue generated from: '<Root>/Chart' */
+  return msg;
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static boolean_T director_sf_msg_pop_previous(void)
+{
+  boolean_T isPresent;
+  if (director_DW.previous_isValid) {
+    isPresent = true;
+  } else {
+    director_DW.previous_msgHandle = director_Chart_In2_RecvMsg();
+    if (director_DW.previous_msgHandle != NULL) {
+      director_DW.previous_msgDataPtr = &((Msg_real_T *)
+        director_DW.previous_msgHandle)->fData;
+      isPresent = true;
+    } else {
+      isPresent = false;
+    }
+
+    director_DW.previous_isValid = isPresent;
   }
 
   return isPresent;
@@ -327,8 +327,6 @@ void director_step(void)
   boolean_T guard1 = false;
   boolean_T guard2 = false;
   boolean_T guard3 = false;
-  boolean_T guard4 = false;
-  boolean_T guard5 = false;
 
   /* Outputs for Atomic SubSystem: '<Root>/Subscribe2' */
   /* MATLABSystem: '<S3>/SourceBlock' incorporates:
@@ -399,49 +397,12 @@ void director_step(void)
     guard1 = false;
     guard2 = false;
     guard3 = false;
-    guard4 = false;
-    guard5 = false;
     switch (director_DW.is_c1_director) {
      case director_IN_Coached_const_th:
       director_B.mode = 3U;
       director_B.feedback_type = 1U;
-      if (director_DW.temporalCounter_i1 >= 720U) {
-        guard2 = true;
-      } else if (director_sf_msg_pop_previous()) {
-        director_DW.sp_index = 1U;
-        director_DW.is_c1_director = director_IN_Const_th;
-        director_DW.temporalCounter_i1 = 0U;
-        director_B.mode = 2U;
-        director_B.setpoint = 0.0;
-        director_B.feedback_type = 0U;
-      } else {
-        if (director_sf_msg_pop_next()) {
-          guard2 = true;
-        }
-      }
-      break;
-
-     case director_IN_Coached_dynamic_th:
-      director_B.mode = 5U;
-      director_B.feedback_type = 1U;
-      if ((director_DW.temporalCounter_i1 >= 120U) && (director_DW.sp_index <= 7))
+      if (director_sf_msg_pop_next() || (director_DW.temporalCounter_i1 >= 720U))
       {
-        director_DW.is_c1_director = director_IN_Coached_dynamic_th;
-        director_DW.temporalCounter_i1 = 0U;
-        director_B.mode = 5U;
-        director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
-        tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
-        if (static_cast<uint32_T>(tmp) > 255U) {
-          tmp = 255;
-        }
-
-        director_DW.sp_index = static_cast<uint8_T>(tmp);
-        director_B.feedback_type = 1U;
-      } else if ((director_DW.temporalCounter_i1 >= 120U) &&
-                 (director_DW.sp_index > 7)) {
-        director_DW.sp_index = 1U;
-        guard3 = true;
-      } else if (director_sf_msg_pop_previous()) {
         director_DW.sp_index = 1U;
         director_DW.is_c1_director = direct_IN_Instructed_dynamic_th;
         director_DW.temporalCounter_i1 = 0U;
@@ -455,9 +416,54 @@ void director_step(void)
         director_DW.sp_index = static_cast<uint8_T>(tmp);
         director_B.feedback_type = 0U;
       } else {
-        if (director_sf_msg_pop_next()) {
+        if (director_sf_msg_pop_previous()) {
           director_DW.sp_index = 1U;
-          guard3 = true;
+          director_DW.is_c1_director = director_IN_Const_th;
+          director_DW.temporalCounter_i1 = 0U;
+          director_B.mode = 2U;
+          director_B.setpoint = 0.0;
+          director_B.feedback_type = 0U;
+        }
+      }
+      break;
+
+     case director_IN_Coached_dynamic_th:
+      director_B.mode = 5U;
+      director_B.feedback_type = 1U;
+      if ((director_DW.temporalCounter_i1 >= 120U) && (director_DW.sp_index > 7))
+      {
+        director_DW.sp_index = 1U;
+        guard1 = true;
+      } else if (director_sf_msg_pop_next()) {
+        director_DW.sp_index = 1U;
+        guard1 = true;
+      } else if ((director_DW.temporalCounter_i1 >= 120U) &&
+                 (director_DW.sp_index <= 7)) {
+        director_DW.is_c1_director = director_IN_Coached_dynamic_th;
+        director_DW.temporalCounter_i1 = 0U;
+        director_B.mode = 5U;
+        director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
+        tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
+        if (static_cast<uint32_T>(tmp) > 255U) {
+          tmp = 255;
+        }
+
+        director_DW.sp_index = static_cast<uint8_T>(tmp);
+        director_B.feedback_type = 1U;
+      } else {
+        if (director_sf_msg_pop_previous()) {
+          director_DW.sp_index = 1U;
+          director_DW.is_c1_director = direct_IN_Instructed_dynamic_th;
+          director_DW.temporalCounter_i1 = 0U;
+          director_B.mode = 4U;
+          director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
+          tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
+          if (static_cast<uint32_T>(tmp) > 255U) {
+            tmp = 255;
+          }
+
+          director_DW.sp_index = static_cast<uint8_T>(tmp);
+          director_B.feedback_type = 0U;
         }
       }
       break;
@@ -467,17 +473,17 @@ void director_step(void)
       director_B.feedback_type = 2U;
       if (director_DW.temporalCounter_i1 >= 720U) {
         director_DW.sp_index = 1U;
-        guard4 = true;
-      } else if (director_sf_msg_pop_previous()) {
-        director_DW.is_c1_director = dire_IN_Instructed_vel_matching;
-        director_DW.temporalCounter_i1 = 0U;
-        director_B.mode = 6U;
-        director_B.setpoint = 0.0;
-        director_B.feedback_type = 0U;
+        guard2 = true;
+      } else if (director_sf_msg_pop_next()) {
+        director_DW.sp_index = 1U;
+        guard2 = true;
       } else {
-        if (director_sf_msg_pop_next()) {
-          director_DW.sp_index = 1U;
-          guard4 = true;
+        if (director_sf_msg_pop_previous()) {
+          director_DW.is_c1_director = dire_IN_Instructed_vel_matching;
+          director_DW.temporalCounter_i1 = 0U;
+          director_B.mode = 6U;
+          director_B.setpoint = 0.0;
+          director_B.feedback_type = 0U;
         }
       }
       break;
@@ -494,11 +500,11 @@ void director_step(void)
         director_B.feedback_type = 1U;
       } else {
         if (director_sf_msg_pop_previous()) {
-          director_DW.is_c1_director = director_IN_Init;
+          director_DW.is_c1_director = directo_IN_Coached_vel_matching;
           director_DW.temporalCounter_i1 = 0U;
-          director_B.mode = 1U;
+          director_B.mode = 7U;
           director_B.setpoint = 0.0;
-          director_B.feedback_type = 0U;
+          director_B.feedback_type = 2U;
         }
       }
       break;
@@ -526,11 +532,18 @@ void director_step(void)
         director_DW.is_c1_director = director_IN_END;
       } else {
         if (director_sf_msg_pop_previous()) {
-          director_DW.is_c1_director = directo_IN_Coached_vel_matching;
+          director_DW.sp_index = 1U;
+          director_DW.is_c1_director = director_IN_Coached_dynamic_th;
           director_DW.temporalCounter_i1 = 0U;
-          director_B.mode = 7U;
-          director_B.setpoint = 0.0;
-          director_B.feedback_type = 2U;
+          director_B.mode = 5U;
+          director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
+          tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
+          if (static_cast<uint32_T>(tmp) > 255U) {
+            tmp = 255;
+          }
+
+          director_DW.sp_index = static_cast<uint8_T>(tmp);
+          director_B.feedback_type = 1U;
         }
       }
       break;
@@ -538,11 +551,10 @@ void director_step(void)
      case director_IN_Init:
       director_B.mode = 1U;
       director_B.feedback_type = 0U;
-      if (director_sf_msg_pop_next() || (director_DW.temporalCounter_i1 >= 720U))
-      {
-        director_DW.is_c1_director = director_IN_Const_th;
+      if (director_DW.temporalCounter_i1 >= 720U) {
+        director_DW.is_c1_director = dire_IN_Instructed_vel_matching;
         director_DW.temporalCounter_i1 = 0U;
-        director_B.mode = 2U;
+        director_B.mode = 6U;
         director_B.setpoint = 0.0;
         director_B.feedback_type = 0U;
       }
@@ -554,7 +566,7 @@ void director_step(void)
       if ((director_DW.temporalCounter_i1 >= 120U) && (director_DW.sp_index > 7))
       {
         director_DW.sp_index = 1U;
-        guard5 = true;
+        guard3 = true;
       } else if ((director_DW.temporalCounter_i1 >= 120U) &&
                  (director_DW.sp_index <= 7)) {
         director_DW.is_c1_director = direct_IN_Instructed_dynamic_th;
@@ -570,7 +582,7 @@ void director_step(void)
         director_B.feedback_type = 0U;
       } else if (director_sf_msg_pop_next()) {
         director_DW.sp_index = 1U;
-        guard5 = true;
+        guard3 = true;
       } else {
         if (director_sf_msg_pop_previous()) {
           director_DW.is_c1_director = director_IN_Coached_const_th;
@@ -586,30 +598,26 @@ void director_step(void)
       /* case IN_Instructed_vel_matching: */
       director_B.mode = 6U;
       director_B.feedback_type = 0U;
-      if (director_DW.temporalCounter_i1 >= 720U) {
-        guard1 = true;
-      } else if (director_sf_msg_pop_previous()) {
-        director_DW.sp_index = 1U;
-        director_DW.is_c1_director = director_IN_Coached_dynamic_th;
+      if ((director_DW.temporalCounter_i1 >= 720U) || director_sf_msg_pop_next())
+      {
+        director_DW.is_c1_director = directo_IN_Coached_vel_matching;
         director_DW.temporalCounter_i1 = 0U;
-        director_B.mode = 5U;
-        director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
-        tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
-        if (static_cast<uint32_T>(tmp) > 255U) {
-          tmp = 255;
-        }
-
-        director_DW.sp_index = static_cast<uint8_T>(tmp);
-        director_B.feedback_type = 1U;
+        director_B.mode = 7U;
+        director_B.setpoint = 0.0;
+        director_B.feedback_type = 2U;
       } else {
-        if (director_sf_msg_pop_next()) {
-          guard1 = true;
+        if (director_sf_msg_pop_previous()) {
+          director_DW.is_c1_director = director_IN_Init;
+          director_DW.temporalCounter_i1 = 0U;
+          director_B.mode = 1U;
+          director_B.setpoint = 0.0;
+          director_B.feedback_type = 0U;
         }
       }
       break;
     }
 
-    if (guard5) {
+    if (guard3) {
       director_DW.is_c1_director = director_IN_Coached_dynamic_th;
       director_DW.temporalCounter_i1 = 0U;
       director_B.mode = 5U;
@@ -623,7 +631,15 @@ void director_step(void)
       director_B.feedback_type = 1U;
     }
 
-    if (guard4) {
+    if (guard2) {
+      director_DW.is_c1_director = director_IN_Const_th;
+      director_DW.temporalCounter_i1 = 0U;
+      director_B.mode = 2U;
+      director_B.setpoint = 0.0;
+      director_B.feedback_type = 0U;
+    }
+
+    if (guard1) {
       director_DW.is_c1_director = director_IN_Ghost_mode;
       director_DW.temporalCounter_i1 = 0U;
       director_B.mode = 8U;
@@ -635,37 +651,6 @@ void director_step(void)
 
       director_DW.sp_index = static_cast<uint8_T>(tmp);
       director_B.feedback_type = 1U;
-    }
-
-    if (guard3) {
-      director_DW.is_c1_director = dire_IN_Instructed_vel_matching;
-      director_DW.temporalCounter_i1 = 0U;
-      director_B.mode = 6U;
-      director_B.setpoint = 0.0;
-      director_B.feedback_type = 0U;
-    }
-
-    if (guard2) {
-      director_DW.sp_index = 1U;
-      director_DW.is_c1_director = direct_IN_Instructed_dynamic_th;
-      director_DW.temporalCounter_i1 = 0U;
-      director_B.mode = 4U;
-      director_B.setpoint = director_DW.sp[director_DW.sp_index - 1];
-      tmp = static_cast<int32_T>(director_DW.sp_index + 1U);
-      if (static_cast<uint32_T>(tmp) > 255U) {
-        tmp = 255;
-      }
-
-      director_DW.sp_index = static_cast<uint8_T>(tmp);
-      director_B.feedback_type = 0U;
-    }
-
-    if (guard1) {
-      director_DW.is_c1_director = directo_IN_Coached_vel_matching;
-      director_DW.temporalCounter_i1 = 0U;
-      director_B.mode = 7U;
-      director_B.setpoint = 0.0;
-      director_B.feedback_type = 2U;
     }
   }
 

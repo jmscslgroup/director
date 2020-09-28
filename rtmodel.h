@@ -7,9 +7,9 @@
  *
  * Code generation for model "director".
  *
- * Model version              : 1.60
+ * Model version              : 1.62
  * Simulink Coder version : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Fri Sep 25 11:31:32 2020
+ * C++ source code generated on : Mon Sep 28 15:23:34 2020
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -23,7 +23,7 @@
  * Code generation for Simulink model "director".
  *
  * Simulink Coder version                : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Fri Sep 25 11:31:32 2020
+ * C++ source code generated on : Mon Sep 28 15:23:34 2020
  *
  * Note that the generated code is not dependent on this header file.
  * The file is used in cojuction with the automatic build procedure.

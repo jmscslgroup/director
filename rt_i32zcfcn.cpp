@@ -7,9 +7,9 @@
  *
  * Code generation for model "director".
  *
- * Model version              : 1.59
+ * Model version              : 1.62
  * Simulink Coder version : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Fri Sep 25 11:30:16 2020
+ * C++ source code generated on : Mon Sep 28 15:23:34 2020
  */
 
 #include "rt_i32zcfcn.h"
