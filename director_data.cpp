@@ -7,9 +7,9 @@
  *
  * Code generation for model "director".
  *
- * Model version              : 1.62
+ * Model version              : 1.78
  * Simulink Coder version : 9.3 (R2020a) 18-Nov-2019
- * C++ source code generated on : Mon Sep 28 15:23:34 2020
+ * C++ source code generated on : Fri Oct  9 15:24:16 2020
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -24,35 +24,35 @@
 /* Block parameters (default storage) */
 P_director_T director_P = {
   /* Computed Parameter: Constant_Value
-   * Referenced by: '<S9>/Constant'
+   * Referenced by: '<S10>/Constant'
    */
   {
     0.0                                /* Data */
   },
 
   /* Computed Parameter: Out1_Y0
-   * Referenced by: '<S10>/Out1'
+   * Referenced by: '<S11>/Out1'
    */
   {
     0                                  /* Data */
   },
 
   /* Computed Parameter: Constant_Value_n
-   * Referenced by: '<S3>/Constant'
+   * Referenced by: '<S4>/Constant'
    */
   {
     0                                  /* Data */
   },
 
   /* Computed Parameter: Constant_Value_l
-   * Referenced by: '<S12>/Constant'
+   * Referenced by: '<S13>/Constant'
    */
   {
     0U                                 /* Data */
   },
 
   /* Computed Parameter: Constant_Value_h
-   * Referenced by: '<S14>/Constant'
+   * Referenced by: '<S15>/Constant'
    */
   {
     0U                                 /* Data */
